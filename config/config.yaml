@@ -1,0 +1,7 @@
+models:
+  - type: main
+    engine: groq
+    apikey: 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
+
+
+# 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

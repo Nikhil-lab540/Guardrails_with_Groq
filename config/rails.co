@@ -1,0 +1,16 @@
+define user express greeting
+  "Hello"
+  "Hi"
+  "Hey"
+  "Good day"
+
+define flow greeting
+  user express greeting
+  bot express greeting
+  bot ask how are you
+
+define bot express greeting
+  "Hello! Welcome to our service."
+
+define bot ask how are you
+  "How are you doing today?"
