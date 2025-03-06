@@ -1,16 +1,19 @@
-define user express greeting
-  "Hello"
-  "Hi"
-  "Hey"
-  "Good day"
+guardrails:
+  - name: restrict_to_sales
+    rules:
+      - description: "Allow only sales-related queries."
+        condition:
+          any:
+            - input_contains: ["sales", "pricing", "product", "purchase", "order", "quote", "invoice", "discount", "customer", "billing"]
+        response: "I'm happy to assist with your sales-related questions. How can I help you with sales today?"
 
-define flow greeting
-  user express greeting
-  bot express greeting
-  bot ask how are you
+      - description: "Block non-sales-related queries."
+        condition:
+          any:
+            - input_contains: ["weather", "temperature", "forecast", "rain", "snow", "sports", "movies", "news", "politics", "music"]
+        response: "I'm here to assist with sales-related queries only. Please ask a question related to sales."
 
-define bot express greeting
-  "Hello! Welcome to our service."
-
-define bot ask how are you
-  "How are you doing today?"
+      - description: "Handle unrelated queries."
+        condition:
+          default: true
+        response: "I specialize in sales-related topics. Please ask about sales, pricing, or products."
