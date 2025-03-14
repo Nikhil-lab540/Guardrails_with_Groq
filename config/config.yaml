@@ -4,6 +4,7 @@ models:
     apikey: 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
 guardrails:
   path: "./config/rails.co"
+
 instructions:
   - type: general
     content: |
@@ -11,14 +12,27 @@ instructions:
       The bot is designed to answer employee questions about the ABC Company.
       The bot is knowledgeable about the employee handbook and company policies.
       If the bot does not know the answer to a question, it truthfully says it does not know.
-sample_conversation: |
-  user "Hi there. Can you help me with some questions I have about the company?"
-    express greeting and ask for assistance
-  bot express greeting and confirm and offer assistance
-    "Hi there! I'm here to help answer any questions you may have about the ABC Company. What would you like to know?"
-  user "What's the company policy on paid time off?"
-    ask question about benefits
-  bot respond to question about benefits
-    "The ABC Company provides eligible employees with up to two weeks of paid vacation time per year, as well as five paid sick days per year. Please refer to the employee handbook for more information."
+      The bot **must not answer non-company-related questions.**
 
+intents:
+  - name: company_related
+    examples:
+      - "Tell me about company policies."
+      - "What are the working hours?"
+      - "Who is the CEO?"
+      - "How much paid leave do employees get?"
+      - "What is the dress code?"
+  
+  - name: unrelated_query
+    examples:
+      - "What’s the weather like?"
+      - "How to cook an egg?"
+      - "Tell me a joke."
+      - "What’s 2+2?"
+
+rules:
+  - name: enforce_topic_restriction
+    condition: input.intent == "unrelated_query"
+    action: block
+    response: "I'm here to assist with ABC Company policies only. Please ask about company policies or the employee handbook."
 # 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
